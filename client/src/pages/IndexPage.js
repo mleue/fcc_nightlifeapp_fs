@@ -7,15 +7,20 @@ import { browserHistory } from 'react-router';
 export default class IndexPage extends React.Component {
 	static contextTypes = {
 		authenticated: React.PropTypes.bool,
-		user: React.PropTypes.object
+		user: React.PropTypes.object,
+		appState: React.PropTypes.func
 	};
 	componentWillMount() {
 		this.state = { businesses: [] };
+		let latestLoc = this.context.appState('latestLocation'); 
+		if (latestLoc !== '')
+			this.fetch(latestLoc);
 	}
 	handleOnClick() {
 		let loc = document.getElementById('location').value;
 		if (loc !== '') {
 			this.fetch(loc);
+			document.getElementById('location').value = '';
 		}
 	}
 	toggleGoing(venueID, people) {
@@ -53,6 +58,7 @@ export default class IndexPage extends React.Component {
 		}
 	}
 	fetch(location) {
+		this.context.appState({latestLocation: location});
 		axios.get('/api/who?location='+location)
 			.then( (response) => {
 				this.setState({businesses: response.data});
