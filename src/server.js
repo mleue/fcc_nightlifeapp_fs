@@ -3,8 +3,8 @@ import stormpath from 'express-stormpath';
 import bodyParser from 'body-parser';
 import webpack from 'webpack';
 import path from 'path';
-import {addPersonToVenue, removePersonFromVenue} from './db';
-import {venuesAndPersons} from './request';
+import {addPersonToVenue, removePersonFromVenue} from './core/db';
+import {venuesAndPersons} from './core/request';
 
 let app = express();
 
@@ -88,7 +88,6 @@ app.on('stormpath.ready', function () {
 		if (err) {
 			return console.error(err);
 		}
-		console.log('Listening at http://localhost:3000');
-		connectToDB();
+		console.log('Listening...');
 	});
 });

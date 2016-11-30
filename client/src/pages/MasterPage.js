@@ -6,7 +6,7 @@ import Header from './Header';
 export default class MasterPage extends React.Component {
 	render() {
 		return (
-			<DocumentTitle title='My React App'>
+			<DocumentTitle title='Nightlife App'>
 				<div className='MasterPage'>
 					<Header />
 					{ this.props.children }

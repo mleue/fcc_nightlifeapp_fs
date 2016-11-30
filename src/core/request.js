@@ -41,11 +41,17 @@ function yelpRequestAccessToken() {
 		});
 }
 
+function combineVenuesAndPersons(businesses, venuePeople) {
+	return businesses.map( (business) => {
+		return { ...business, people: venuePeople.filter( venue => venue.id === business.id )[0].people };
+	});
+}
+
 export function venuesAndPersons(location, callback) {
 	requestYelp('magdeburg', 10, 'bars', (data) => {
 		let venueIDs = data.businesses.map( (business) => business.id );
 		getWhoIsGoing(venueIDs, (res) => {
-			callback(res);
+			callback(combineVenuesAndPersons(data.businesses, res));
 		})
 	});
 }
