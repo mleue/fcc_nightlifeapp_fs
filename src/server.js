@@ -7,6 +7,13 @@ import {connectToDB} from './core/db';
 
 let app = express();
 
+app.set('port', (process.env.PORT || 3000));
+
+// Express only serves static assets in production
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, '../client/run/')));
+}
+
 app.use(stormpath.init(app, {
 	web: {
 		produces: ['application/json']
@@ -58,7 +65,7 @@ app.get('*', function (req, res) {
 });
 
 app.on('stormpath.ready', function () {
-	app.listen(3000, 'localhost', function (err) {
+	app.listen(app.get('port'), function (err) {
 		if (err) {
 			return console.error(err);
 		}
