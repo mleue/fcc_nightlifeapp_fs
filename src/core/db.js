@@ -45,8 +45,8 @@ export function addPersonToVenue(venueID, person, callback) {
 			{ id: venueID },
 			{ $addToSet : { people: person } } 
 		);
-		callback();
 	});
+	callback("added");
 }
 
 export function removePersonFromVenue(venueID, person, callback) {
@@ -55,6 +55,6 @@ export function removePersonFromVenue(venueID, person, callback) {
 			{ id: venueID },
 			{ $pull : { people: person } } 
 		);
-		callback();
 	});
+	callback("removed");
 }

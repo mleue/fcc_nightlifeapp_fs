@@ -67,18 +67,18 @@ app.get('/api/who', (req, res) => {
 	})
 });
 
-app.post('/api/addpersontovenue', bodyParser.json(), (req, res) => {
-	addPersonToVenue(req.body.venueID, req.body.person, () => {
+app.post('/api/add', bodyParser.json(), (req, res) => {
+	addPersonToVenue(req.body.venueID, req.body.person, (msg) => {
 		res.json({
-			success: true
+			success: msg
 		});
 	});
 });
 
-app.post('/api/removepersonfromvenue', bodyParser.json(), (req, res) => {
-	removePersonFromVenue(req.body.venueID, req.body.person, () => {
+app.post('/api/remove', bodyParser.json(), (req, res) => {
+	removePersonFromVenue(req.body.venueID, req.body.person, (msg) => {
 		res.json({
-			success: true
+			success: msg
 		});
 	});
 });
