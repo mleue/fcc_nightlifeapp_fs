@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {getWhoIsGoing} from './db';
 
 const AUTH_TOKEN = 'lGw551u4p7Cex7Mev_iIjQJqvNLHZ548jfyBtABxNL_XpvPkqcUVKGmgRjcPZ2jeI5XmjaxAGAF9TUFfuLOBc4aC4stWmUVhs-EMXOQKkZV6ON15Uz1DqP0c4Wo-WHYx';
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + AUTH_TOKEN;
@@ -8,7 +9,7 @@ export function requestYelp(location, limit, categories, callback) {
 		method: 'get',
 		url: createQueryString(location, limit, categories),
 	}).then(function (response) {
-		console.log(response.data);
+		callback(response.data);
 	})
 		.catch(function (error) {
 			console.log(error);
@@ -40,4 +41,9 @@ function yelpRequestAccessToken() {
 		});
 }
 
-requestYelp('magdeburg', 10, 'bars');
+requestYelp('magdeburg', 10, 'bars', (data) => {
+	let venueIDs = data.businesses.map( (business) => business.id );
+	getWhoIsGoing(venueIDs, (res) => {
+		console.log(res);
+	})
+});
