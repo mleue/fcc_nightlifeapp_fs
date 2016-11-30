@@ -38,3 +38,23 @@ export function getWhoIsGoing(venueIDs, callback) {
 		})
 	})
 }
+
+export function addPersonToVenue(venueID, person, callback) {
+	connectToDB( (db) => {
+		db.collection('nightlife').update(
+			{ id: venueID },
+			{ $addToSet : { people: person } } 
+		);
+		callback();
+	});
+}
+
+export function removePersonFromVenue(venueID, person, callback) {
+	connectToDB( (db) => {
+		db.collection('nightlife').update(
+			{ id: venueID },
+			{ $pull : { people: person } } 
+		);
+		callback();
+	});
+}
