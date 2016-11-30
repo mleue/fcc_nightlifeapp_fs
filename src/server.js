@@ -3,7 +3,8 @@ import stormpath from 'express-stormpath';
 import bodyParser from 'body-parser';
 import webpack from 'webpack';
 import path from 'path';
-import {connectToDB} from './core/db';
+import {addPersonToVenue, removePersonFromVenue} from './db';
+import {venuesAndPersons} from './request';
 
 let app = express();
 
@@ -60,8 +61,26 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
 	}
 });
 
-app.get('*', function (req, res) {
-	  res.sendFile(path.join(__dirname, 'build/index.html'));
+app.get('/api/who', (req, res) => {
+	venuesAndPersons( req.query.location, (data) => {
+		res.json(data);
+	})
+});
+
+app.post('/api/addpersontovenue', bodyParser.json(), (req, res) => {
+	addPersonToVenue(req.body.venueID, req.body.person, () => {
+		res.json({
+			success: true
+		});
+	});
+});
+
+app.post('/api/removepersonfromvenue', bodyParser.json(), (req, res) => {
+	removePersonFromVenue(req.body.venueID, req.body.person, () => {
+		res.json({
+			success: true
+		});
+	});
 });
 
 app.on('stormpath.ready', function () {

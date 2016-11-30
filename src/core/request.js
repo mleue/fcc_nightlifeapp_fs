@@ -41,11 +41,11 @@ function yelpRequestAccessToken() {
 		});
 }
 
-//addPersonToVenue('coco-magdeburg', 'hansi', console.log);
-//removePersonFromVenue('coco-magdeburg', 'hansi', console.log);
-//requestYelp('magdeburg', 10, 'bars', (data) => {
-//	let venueIDs = data.businesses.map( (business) => business.id );
-//	getWhoIsGoing(venueIDs, (res) => {
-//		console.log(res);
-//	})
-//});
+export function venuesAndPersons(location, callback) {
+	requestYelp('magdeburg', 10, 'bars', (data) => {
+		let venueIDs = data.businesses.map( (business) => business.id );
+		getWhoIsGoing(venueIDs, (res) => {
+			callback(res);
+		})
+	});
+}
