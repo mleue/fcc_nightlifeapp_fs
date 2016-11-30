@@ -24,7 +24,7 @@ export function getWhoIsGoing(venueIDs, callback) {
 				{ $setOnInsert: { people: [], id: id } },
 				{ new: true, upsert: true } // return new doc if one is upserted, insert the document if it does not exist
 			).then( (doc) => {
-				if (doc === null)
+				if (doc.value === null)
 					venueEntries.push({id: id, people: []});
 				else
 					venueEntries.push({id: id, people: doc.value.people});

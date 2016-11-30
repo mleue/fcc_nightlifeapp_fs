@@ -48,7 +48,7 @@ function combineVenuesAndPersons(businesses, venuePeople) {
 }
 
 export function venuesAndPersons(location, callback) {
-	requestYelp('magdeburg', 10, 'bars', (data) => {
+	requestYelp(location, 10, 'bars', (data) => {
 		let venueIDs = data.businesses.map( (business) => business.id );
 		getWhoIsGoing(venueIDs, (res) => {
 			callback(combineVenuesAndPersons(data.businesses, res));
